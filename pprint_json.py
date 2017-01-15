@@ -1,32 +1,35 @@
 import json
-import sys
+
 import os
-import pprint
+import argparse
 
 
 def load_data(filepath):
     if not os.path.exists(filepath):
-        print("Файла "+filepath+" не найдено!")
+        print("Файла " + filepath + " не найдено!")
         return None
-    print("Загружен файл "+filepath)
-    with open(filepath, 'r', encoding='utf-8') as file_handler:
-        return json.load(file_handler)
+    else:
+        print("Загружен файл " + filepath)
+        return open(filepath, 'r', encoding='utf-8')
+
+def load_json(json_file):
+    try:
+        return json.load(json_file)
+    except ValueError:
+        print("Ошибка переобразования JSON файла")
 
 
 def pretty_print_json(data):
-    pretty_printer = pprint.PrettyPrinter(indent=4)
-    pretty_printer.pprint(data)
+    print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        for param in sys.argv[1:]:
-            json_from_file = load_data(param)
-            if json_from_file:
-                pretty_print_json(json_from_file)
-    else:
-        print("Не введены параметры командной строки " +
-              "вида: python pprint_json.py <path to file>")
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("json_file_name", type=str, nargs='+',
+                        help="display a square of a given number")
+    for arg in parser.parse_args().json_file_name:
+        json_from_file = load_data(arg)
+        json_data = load_json(json_from_file)
+        if json_data:
+            pretty_print_json(json_data)
     print("Программа завершена.")
-
-
