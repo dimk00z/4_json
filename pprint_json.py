@@ -2,7 +2,6 @@ import json
 import os
 import argparse
 
-
 def load_data(filepath):
     if not os.path.exists(filepath):
         print("Файла " + filepath + " не найдено!")
