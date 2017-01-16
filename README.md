@@ -6,8 +6,8 @@ Pretty print JSON файлов
 
 # Quickstart
 
-Приложение запускаьб из команндной строки:
-$ python pprint_json.py <path to json file>
+Приложение запускаьб из командной строки:
+$ python pprint_json.py <path to json file ...>
 ```
 python pprint_json.py data.json
 Загружен файл data.json

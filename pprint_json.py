@@ -5,10 +5,8 @@ import argparse
 
 def load_file(filepath):
     if not os.path.exists(filepath):
-        print("Файла " + filepath + " не найдено!")
         return None
     else:
-        print("Загружен файл " + filepath)
         return open(filepath, 'r', encoding='utf-8')
 
 
@@ -16,7 +14,7 @@ def load_json_data(json_file):
     try:
         return json.load(json_file)
     except ValueError:
-        print("Ошибка переобразования JSON файла")
+        return None
 
 
 def pretty_print_json(data):
@@ -34,7 +32,13 @@ if __name__ == '__main__':
     json_file_names = read_json_filenames_from_args()
     for json_file_name in json_file_names:
         file_data = load_file(json_file_name)
-        json_data = load_json_data(file_data)
-        if json_data:
-            pretty_print_json(json_data)
+        if not file_data:
+            print("Файла " + json_file_names + " не найдено!")
+        else:
+            print("Загружен файл " + json_file_name)
+            json_data = load_json_data(file_data)
+            if json_data:
+                pretty_print_json(json_data)
+            else:
+                print("Ошибка переобразования JSON файла")
     print("Программа завершена.")
